@@ -9,6 +9,7 @@ import ValidationError from '../utils/errors/validationError.js';
 export const signUpService = async (data) => {
   try {
     const newUser = await userRepository.create(data);
+    console.log('newUser', newUser);
     return newUser;
   } catch (error) {
     console.log('User service error', error);
@@ -28,6 +29,13 @@ export const signUpService = async (data) => {
         'A user with same email or username already exists'
       );
     }
+
+    throw new ValidationError(
+      {
+        error: ['A user with same email or username already exists']
+      },
+      'A user with same email or username already exists'
+    );
   }
 };
 

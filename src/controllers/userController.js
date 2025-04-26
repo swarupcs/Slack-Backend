@@ -10,6 +10,7 @@ import {
 export const signUp = async (req, res) => {
   try {
     const user = await signUpService(req.body);
+    console.log("user", user);
 
     return res
       .status(StatusCodes.CREATED)
@@ -17,6 +18,7 @@ export const signUp = async (req, res) => {
   } catch (error) {
     console.log('User controller error', error);
     if (error.statusCode) {
+      
       return res.status(error.statusCode).json(customErrorResponse(error));
     }
 
