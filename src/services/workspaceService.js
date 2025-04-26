@@ -8,9 +8,15 @@ import ClientError from '../utils/errors/clientError.js';
 import ValidationError from '../utils/errors/validationError.js';
 
 const isUserAdminOfWorkspace = (workspace, userId) => {
-  return workspace.members.find(
-    (member) => member.memberId.toString() === userId && member.role === 'admin'
-  );
+console.log(workspace.members, userId);
+   const response = workspace.members.find(
+     (member) =>
+       (member.memberId.toString() === userId ||
+         member.memberId._id.toString() === userId) &&
+       member.role === 'admin'
+   );
+   console.log(response);
+   return response;
 };
 
 const isUserMemberOfWorkspace = (workspace, userId) => {
@@ -198,7 +204,8 @@ export const updateWorkspaceService = async (
 export const addMemberToWorkspaceService = async (
   workspaceId,
   memberId,
-  role
+  role,
+  userId
 ) => {
   try {
     const workspace = await workspaceRepository.getById(workspaceId);
@@ -209,6 +216,16 @@ export const addMemberToWorkspaceService = async (
         statusCode: StatusCodes.NOT_FOUND
       });
     }
+
+     const isAdmin = isUserAdminOfWorkspace(workspace, userId);
+     if (!isAdmin) {
+       throw new ClientError({
+         explanation: 'User is not an admin of the workspace',
+         message: 'User is not an admin of the workspace',
+         statusCode: StatusCodes.UNAUTHORIZED
+       });
+     }
+
     const isValidUser = await userRepository.getById(memberId);
     if (!isValidUser) {
       throw new ClientError({
@@ -271,6 +288,8 @@ export const addChannelToWorkspaceService = async (
         statusCode: StatusCodes.FORBIDDEN
       });
     }
+    console.log('addChannelToWorkspaceService', workspaceId, channelName);
+    
     const response = await workspaceRepository.addChannelToWorkspace(
       workspaceId,
       channelName
