@@ -20,3 +20,7 @@ When a user tries to add a member using their email, the server should check if 
 
 ### Solution
 When a user tries to add a member using their email, the server should check if the email is valid and if the user exists in the system. If the email is valid and the user exists, the server should respond with a status code of 200 and a message indicating that the member has been added successfully. If the email is invalid or the user does not exist, the server should respond with a status code of 400 and a message indicating that the email is invalid or the user does not exist.
+
+## 4. Add member name in the workspace members list
+
+#### add member name along with member email, member id, memner name
