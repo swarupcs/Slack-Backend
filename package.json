@@ -29,6 +29,7 @@
     "zod": "^3.24.3"
   },
   "devDependencies": {
+    "@bull-board/express": "^6.9.2",
     "@eslint/js": "^9.25.1",
     "eslint": "^9.25.1",
     "globals": "^16.0.0",
