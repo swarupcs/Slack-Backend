@@ -17,6 +17,9 @@ app.get('/ping', (req, res) => {
   return res.status(StatusCodes.OK).json({ message: 'pong' });
 });
 
+const FROM_MAIL_ID = process.env.MAIL_ID || "";
+const TO_MAIL_ID = process.env.TO_MAIL_ID || "";
+
 app.listen(PORT, async () => {
   console.log(`Server is running on port ${PORT}`);
   connectDB();
@@ -32,13 +35,14 @@ app.listen(PORT, async () => {
 
   // Configure the mailoptions object
   const mailOptions = {
-    from: 'yourusername@email.com',
-    to: 'yourfriend@email.com',
+    from: FROM_MAIL_ID,
+    to: TO_MAIL_ID,
     subject: 'Sending Email using Node.js',
     text: 'Welcome to the App'
   };
 
-  // console.log('mailer: ', mailer);
+  console.log('mailer: ', mailer);
+  console.log('mailOptions: ', mailOptions);
 
   // Send the email
   try {
