@@ -24,3 +24,19 @@ When a user tries to add a member using their email, the server should check if 
 ## 4. Add member name in the workspace members list
 
 #### add member name along with member email, member id, memner name
+
+
+## 5. Reser Password
+### Problem
+When a user tries to reset their password, they should be informed if the email is not registered in the system.
+
+### Solution
+When a user tries to reset their password, the server should check if the email is registered in the system. If the email is registered, the server should respond with a status code of 200 and a message indicating that the password reset link has been sent to the user's email. If the email is not registered, the server should respond with a status code of 404 and a message indicating that the email is not registered in the system.
+
+
+## 6. Confirm Email
+### Problem
+When a user tries to confirm their email, they should be informed if the email is not registered in the system.
+
+### Solution
+When a user tries to confirm their email, the server should check if the email is registered in the system. If the email is registered, the server should respond with a status code of 200 and a message indicating that the email has been confirmed successfully. If the email is not registered, the server should respond with a status code of 404 and a message indicating that the email is not registered in the system.
