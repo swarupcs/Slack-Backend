@@ -40,3 +40,22 @@ When a user tries to confirm their email, they should be informed if the email i
 
 ### Solution
 When a user tries to confirm their email, the server should check if the email is registered in the system. If the email is registered, the server should respond with a status code of 200 and a message indicating that the email has been confirmed successfully. If the email is not registered, the server should respond with a status code of 404 and a message indicating that the email is not registered in the system.
+
+## 7. User can login with username or email
+### Problem
+When a user tries to log in, they should be able to use either their username or email to log in.
+### Solution
+When a user tries to log in, the server should check if the username or email is valid. If the username or email is valid, the server should respond with a status code of 200 and a message indicating that the user has logged in successfully. If the username or email is invalid, the server should respond with a status code of 400 and a message indicating that the username or email is invalid.
+
+## 8. Implement refresh token and access token
+### Problem
+When a user logs in, they should be issued a refresh token and an access token. The access token should be used to authenticate the user for a limited time, while the refresh token should be used to obtain a new access token when the old one expires.
+
+### Solution
+When a user logs in, the server should issue a refresh token and an access token. The access token should be used to authenticate the user for a limited time, while the refresh token should be used to obtain a new access token when the old one expires. The server should respond with a status code of 200 and a message indicating that the user has logged in successfully along with the access token and refresh token.
+
+## 9. Admin Dashboard
+### Problem
+When an super user tries to access the dashboard, they should be able to see the list of all users and their details with which user has create workspace, which user has member of which workspace and channels.
+
+### Solution
