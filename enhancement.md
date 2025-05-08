@@ -59,3 +59,19 @@ When a user logs in, the server should issue a refresh token and an access token
 When an super user tries to access the dashboard, they should be able to see the list of all users and their details with which user has create workspace, which user has member of which workspace and channels.
 
 ### Solution
+
+
+## 10. When user try for creating duplicate workspace, then return a message that the workspace is already created by the user
+### Problem
+When a user tries to create a workspace that already exists, they should be informed that the workspace is already created by the user. 
+
+### Solution
+When a user tries to create a workspace that already exists, the server should respond with a status code of 409 and a message indicating that the workspace is already created by the user. The server should also provide the details of the existing workspace, such as its name and ID, to help the user identify it.
+
+## 11. When user try for creating duplicate channel, then return a message that the channel is already created by the user  
+### Problem
+When a user tries to create a channel that already exists, they should be informed that the channel is already created by the user. 
+
+### Solution
+When a user tries to create a channel that already exists, the server should respond with a status code of 409 and a message indicating that the channel is already created by the user. The server should also provide the details of the existing channel, such as its name and ID, to help the user identify it. 
+
