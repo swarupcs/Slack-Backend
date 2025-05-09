@@ -75,3 +75,44 @@ When a user tries to create a channel that already exists, they should be inform
 ### Solution
 When a user tries to create a channel that already exists, the server should respond with a status code of 409 and a message indicating that the channel is already created by the user. The server should also provide the details of the existing channel, such as its name and ID, to help the user identify it. 
 
+## 12. Same workspace name and channel name should not be allowed for the same user. Currently it not allowed creating workspace with same name but the workspace name is checking for all user(or checking for all workspaces) but it should be checking for the same user.
+### Problem
+When a user tries to create a workspace or channel with the same name as an existing one, they should be informed that the name is already in use.
+
+### Solution
+When a user tries to create a workspace or channel with the same name as an existing one, the server should check if the name is already in use by the same user. If the name is already in use, the server should respond with a status code of 409 and a message indicating that the name is already in use. If the name is not in use, the server should allow the user to create the workspace or channel.
+
+## 13. When workspace is not created, then return a toast message that the workspace is not created with the error message
+### Problem
+When a user tries to create a workspace and it fails, they should be informed that the workspace is not created.
+
+### Solution    
+When a user tries to create a workspace and it fails, the server should respond with a status code of 500 and a message indicating that the workspace is not created. The server should also provide the error message to help the user understand why the workspace creation failed. The client should display this message as a toast notification to inform the user.
+
+## 14. When a verification email is sent, then return a toast message that the verification email is sent to the user
+### Problem
+When a user requests to send a verification email, they should be informed that the verification email is sent to their email address.
+
+### Solution    
+When a user requests to send a verification email, the server should respond with a status code of 200 and a message indicating that the verification email is sent to their email address. The client should display this message as a toast notification to inform the user.
+
+## 15. When a verification email is not sent, then return a toast message that the verification email is not sent with the error message
+### Problem
+When a user requests to send a verification email and it fails, they should be informed that the verification email is not sent.        
+
+### Solution    
+When a user requests to send a verification email and it fails, the server should respond with a status code of 500 and a message indicating that the verification email is not sent. The server should also provide the error message to help the user understand why the verification email sending failed. The client should display this message as a toast notification to inform the user.        
+
+## 16. When a user is not verified, then return a toast message that the user is not verified
+### Problem
+When a user tries to access a feature that requires verification and they are not verified, they should be informed that they are not verified.        
+
+### Solution    
+When a user tries to access a feature that requires verification and they are not verified, the server should respond with a status code of 403 and a message indicating that the user is not verified. The client should display this message as a toast notification to inform the user.
+
+## 17. Until a user is not verified, then the user should not be able to create a workspace
+### Problem
+When a user tries to create a workspace and they are not verified, they should be informed that they are not verified and cannot create a workspace.        
+
+### Solution    
+When a user tries to create a workspace and they are not verified, the server should respond with a status code of 403 and a message indicating that the user is not verified and cannot create a workspace. The client should display this message as a toast notification to inform the user.
