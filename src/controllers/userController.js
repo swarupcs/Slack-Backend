@@ -10,7 +10,7 @@ import {
 export const signUp = async (req, res) => {
   try {
     const user = await signUpService(req.body);
-    console.log("user", user);
+    // console.log("user", user);
 
     return res
       .status(StatusCodes.CREATED)

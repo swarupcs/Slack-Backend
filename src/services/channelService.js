@@ -10,7 +10,7 @@ export const getChannelByIdService = async (channelId, userId) => {
     const channel =
       await channelRepository.getChannelWithWorkspaceDetails(channelId);
 
-    console.log(channel);
+    // console.log(channel);
 
     if (!channel || !channel.workspaceId) {
       throw new ClientError({
@@ -41,7 +41,7 @@ export const getChannelByIdService = async (channelId, userId) => {
       20
     );
 
-    console.log('Channel in service', channel);
+    // console.log('Channel in service', channel);
 
     return {
       messages,

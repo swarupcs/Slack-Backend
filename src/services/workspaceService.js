@@ -10,21 +10,21 @@ import ClientError from '../utils/errors/clientError.js';
 import ValidationError from '../utils/errors/validationError.js';
 
 const isUserAdminOfWorkspace = (workspace, userId) => {
-  console.log(workspace.members, userId);
+  // console.log(workspace.members, userId);
   const response = workspace.members.find(
     (member) =>
       (member.memberId.toString() === userId ||
         member.memberId._id.toString() === userId) &&
       member.role === 'admin'
   );
-  console.log(response);
+  // console.log(response);
   return response;
 };
 
 export const isUserMemberOfWorkspace = (workspace, userId) => {
-  console.log(userId);
+  // console.log(userId);
   return workspace.members.find((member) => {
-    console.log('member id ', member.memberId.toString());
+    // console.log('member id ', member.memberId.toString());
     return member.memberId._id.toString() === userId;
   });
 };
@@ -100,7 +100,7 @@ export const deleteWorkspaceService = async (workspaceId, userId) => {
         statusCode: StatusCodes.NOT_FOUND
       });
     }
-    console.log(workspace.members, userId);
+    // console.log(workspace.members, userId);
     const isAllowed = isUserAdminOfWorkspace(workspace, userId);
     //   const channelIds = workspace.channels.map((channel) => channel._id);
 
@@ -314,7 +314,7 @@ export const addChannelToWorkspaceService = async (
         statusCode: StatusCodes.FORBIDDEN
       });
     }
-    console.log('addChannelToWorkspaceService', workspaceId, channelName);
+    // console.log('addChannelToWorkspaceService', workspaceId, channelName);
 
     const response = await workspaceRepository.addChannelToWorkspace(
       workspaceId,

@@ -19,7 +19,7 @@ export const signUpService = async (data) => {
         to: newUser.email
       });
     }
-    console.log('newUser', newUser);
+    // console.log('newUser', newUser);
     return newUser;
   } catch (error) {
     console.log('User service error', error);
@@ -74,7 +74,7 @@ export const verifyTokenService = async (token) => {
     user.verificationTokenExpiry = null;
     await user.save();
 
-    console.log(user);
+    // console.log(user);
 
     return user;
   } catch (error) {
