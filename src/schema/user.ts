@@ -80,20 +80,18 @@ const userSchema = new Schema<IUserDocument>(
 userSchema.index({ verificationToken: 1 }, { sparse: true });
 
 // ─── Pre-save Hook ────────────────────────────────────────────────────────────
-userSchema.pre<IUserDocument>('save', function (next) {
-  if (this.isNew) {
+userSchema.pre<IUserDocument>("save", async function () {
+  if (this.isModified("password")) {
     const SALT_ROUNDS = 10;
-    const salt = bcrypt.genSaltSync(SALT_ROUNDS);
-    this.password = bcrypt.hashSync(this.password, salt);
+    this.password = await bcrypt.hash(this.password, SALT_ROUNDS);
+  }
 
-    // Auto-generated avatar via Robohash
+  if (this.isNew) {
     this.avatar = `https://robohash.org/${this.username}`;
 
-    // Email verification token (10 chars, uppercase)
     this.verificationToken = uuidv4().substring(0, 10).toUpperCase();
-    this.verificationTokenExpiry = new Date(Date.now() + 3_600_000); // 1 hour
+    this.verificationTokenExpiry = new Date(Date.now() + 3_600_000);
   }
-  next();
 });
 
 // ─── Model ────────────────────────────────────────────────────────────────────
