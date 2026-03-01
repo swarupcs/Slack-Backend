@@ -25,8 +25,8 @@ const httpServer = createServer(app);
 
 const io = new Server(httpServer, {
   cors: {
-    origin: process.env.CLIENT_ORIGIN ?? '*',
-    methods: ['GET', 'POST']
+    origin: process.env.ALLOWED_ORIGINS?.split(',').map(o => o.trim()) ?? [],
+    credentials: true,
   }
 });
 
@@ -34,7 +34,7 @@ const io = new Server(httpServer, {
 
 app.use(
   cors({
-    origin: process.env.CLIENT_ORIGIN ?? '*',
+    origin: process.env.ALLOWED_ORIGINS?.split(',').map(o => o.trim()) ?? [],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
     allowedHeaders: ['Content-Type', 'x-access-token'],
     credentials: true   // Required for cookies to be sent cross-origin
