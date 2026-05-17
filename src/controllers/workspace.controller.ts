@@ -289,9 +289,24 @@ export const searchWorkspaceController = asyncHandler(async (req, res) => {
     throw new ApiError(StatusCodes.BAD_REQUEST, 'Search query must be at least 2 characters');
   }
 
-  const results = await messageRepository.searchMessages(workspaceId, query.trim());
+  const results = await messageRepository.searchMessages(workspaceId as string, query.trim());
 
   res
     .status(StatusCodes.OK)
     .json(new ApiResponse(StatusCodes.OK, results, 'Search results'));
+});
+
+/**
+ * GET /api/v1/workspaces/:workspaceId/threads
+ */
+export const getWorkspaceThreads = asyncHandler(async (req, res) => {
+  const workspaceId = req.params.workspaceId as string;
+  const userId = (req as AuthenticatedRequest).user;
+
+  const { getUserThreadsService } = await import('../services/message.service');
+  const threads = await getUserThreadsService(workspaceId, userId);
+
+  res
+    .status(StatusCodes.OK)
+    .json(new ApiResponse(StatusCodes.OK, threads, 'Workspace threads fetched successfully'));
 });

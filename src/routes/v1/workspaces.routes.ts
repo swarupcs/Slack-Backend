@@ -13,7 +13,9 @@ import {
   joinWorkspaceController,
   resetJoinCodeController,
   searchWorkspaceController,
-  updateWorkspaceController} from '../../controllers/workspace.controller';
+  updateWorkspaceController,
+  getWorkspaceThreads
+} from '../../controllers/workspace.controller';
 import { isAuthenticated } from '../../middlewares/auth.middleware';
 import { validate } from '../../middlewares/validation.middleware';
 import {
@@ -33,6 +35,8 @@ router.post(
 );
 
 router.get('/', isAuthenticated, getWorkspacesUserIsMemberOfController);
+
+router.get('/:workspaceId/threads', isAuthenticated, getWorkspaceThreads);
 
 router.delete('/:workspaceId', isAuthenticated, deleteWorkspaceController);
 

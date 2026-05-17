@@ -111,13 +111,41 @@ export async function deleteMessageService(
   messageId: string,
   userId: string
 ): Promise<{ messageId: string }> {
-  const message = await messageRepository.getById(messageId);
-  if (!message) {
+  const existingMessage = await messageRepository.getById(messageId);
+  if (!existingMessage) {
     throw new ApiError(StatusCodes.NOT_FOUND, 'Message not found');
   }
-  if (message.senderId.toString() !== userId) {
-    throw new ApiError(StatusCodes.FORBIDDEN, 'You can only delete your own messages');
+
+  if (existingMessage.senderId.toString() !== userId.toString()) {
+    throw new ApiError(
+      StatusCodes.FORBIDDEN,
+      'You are not authorized to delete this message'
+    );
   }
+
+  // If this message has replies, we should ideally delete replies too, 
+  // but for now just delete the message itself.
   await messageRepository.delete(messageId);
   return { messageId };
+}
+
+/**
+ * Get all threads a user is part of in a workspace.
+ */
+export async function getUserThreadsService(
+  workspaceId: string,
+  userId: string
+): Promise<any[]> {
+  const workspaceRepository = (await import('../repositories/workspace.repository')).default;
+  const workspace = await workspaceRepository.getById(workspaceId);
+  if (!workspace) {
+    throw new ApiError(StatusCodes.NOT_FOUND, 'Workspace not found');
+  }
+
+  const isMember = isUserMemberOfWorkspace(workspace as any, userId);
+  if (!isMember) {
+    throw new ApiError(StatusCodes.FORBIDDEN, 'You are not a member of this workspace');
+  }
+
+  return messageRepository.getUserThreads(workspaceId, userId);
 }

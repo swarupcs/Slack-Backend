@@ -132,6 +132,25 @@ const messageRepository = {
    */
   async deleteMany(filter: any): Promise<void> {
     await Message.deleteMany(filter);
+  },
+
+  /**
+   * Get all parent messages (threads) the user has participated in within a workspace.
+   */
+  async getUserThreads(workspaceId: string, userId: string): Promise<any[]> {
+    // Find parent message IDs where this user has replied
+    const repliedParentIds = await Message.find({
+      workspaceId,
+      parentMessageId: { $exists: true },
+      senderId: userId
+    }).distinct('parentMessageId');
+
+    // Fetch the parent messages themselves, populated
+    return Message.find({ _id: { $in: repliedParentIds } })
+      .sort({ updatedAt: -1 })
+      .populate('senderId', 'username email avatar')
+      .populate('channelId', 'name')
+      .lean();
   }
 };
 
