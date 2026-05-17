@@ -25,7 +25,17 @@ const messageSchema = new Schema<IMessageDocument>(
       type: Schema.Types.ObjectId,
       ref: 'Workspace',
       required: [true, 'Workspace ID is required']
-    }
+    },
+    parentMessageId: {
+      type: Schema.Types.ObjectId,
+      ref: 'Message'
+    },
+    reactions: [
+      {
+        emoji: { type: String, required: true },
+        userIds: [{ type: Schema.Types.ObjectId, ref: 'User' }]
+      }
+    ]
   },
   { timestamps: true }
 );

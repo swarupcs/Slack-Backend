@@ -19,13 +19,14 @@ export default function messageSocketHandlers(
     SocketEvents.NEW_MESSAGE,
     async (data: NewMessageData, cb: SocketCallback) => {
       try {
-        const { channelId } = data;
+        const { channelId, parentMessageId } = data;
         const messageResponse = await createMessageService(data);
 
         logger.debug(
-          `New message in channel ${channelId} from ${socket.id}`
+          `New message in channel ${channelId} from ${socket.id}${parentMessageId ? ` (thread reply for ${parentMessageId})` : ''}`
         );
 
+        // Emit to the channel room so everyone gets it
         io.to(channelId).emit(
           SocketEvents.NEW_MESSAGE_RECEIVED,
           messageResponse

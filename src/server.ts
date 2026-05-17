@@ -15,6 +15,7 @@ import { env } from './config/env.config';
 import mailer from './config/mail.config';
 import channelSocketHandlers from './controllers/channelSocket.controller';
 import messageSocketHandlers from './controllers/messageSocket.controller';
+import presenceSocketHandlers from './controllers/presenceSocket.controller';
 import { logger } from './lib/logger';
 
 const server = createServer(app);
@@ -32,6 +33,7 @@ io.on('connection', (socket) => {
 
   messageSocketHandlers(io, socket);
   channelSocketHandlers(io, socket);
+  presenceSocketHandlers(io, socket);
 
   socket.on('disconnect', () => {
     logger.debug(`Socket disconnected: ${socket.id}`);

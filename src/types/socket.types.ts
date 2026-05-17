@@ -7,12 +7,18 @@ export interface JoinChannelData {
   channelId: string;
 }
 
+export interface JoinWorkspaceData {
+  workspaceId: string;
+  userId: string;
+}
+
 export interface NewMessageData {
   body: string;
   image?: string;
   channelId: string;
   senderId: string;
   workspaceId: string;
+  parentMessageId?: string;
 }
 
 export interface SocketCallbackResponse {

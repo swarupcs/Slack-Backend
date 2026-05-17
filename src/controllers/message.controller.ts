@@ -2,7 +2,7 @@ import { StatusCodes } from 'http-status-codes';
 
 import { env } from '../config/env.config';
 import { parsePaginationParams } from '../helpers/pagination.helper';
-import { getMessagesService } from '../services/message.service';
+import { getMessagesService, toggleReactionService } from '../services/message.service';
 import { getUploadAuthParams } from '../services/upload.service';
 import type { AuthenticatedRequest } from '../types/express.types';
 import { ApiResponse } from '../utils/ApiResponse';
@@ -18,9 +18,10 @@ export const getMessages = asyncHandler(async (req, res) => {
   );
 
   const channelId = req.params.channelId as string;
+  const parentMessageId = req.query.parentMessageId as string | undefined;
 
   const messages = await getMessagesService(
-    { channelId },
+    { channelId, parentMessageId },
     page,
     limit,
     (req as AuthenticatedRequest).user
@@ -49,5 +50,22 @@ export const getUploadAuth = asyncHandler(async (_req, res) => {
         authParams,
         `Upload auth generated via ${env.IMAGE_UPLOAD_PROVIDER}`
       )
+    );
+});
+
+/**
+ * PUT /api/v1/messages/:messageId/reactions
+ */
+export const toggleReaction = asyncHandler(async (req, res) => {
+  const messageId = req.params.messageId as string;
+  const { emoji } = req.body;
+  const userId = (req as AuthenticatedRequest).user;
+
+  const updatedMessage = await toggleReactionService(messageId, emoji, userId);
+
+  res
+    .status(StatusCodes.OK)
+    .json(
+      new ApiResponse(StatusCodes.OK, updatedMessage, 'Reaction toggled successfully')
     );
 });

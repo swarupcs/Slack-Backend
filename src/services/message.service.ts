@@ -8,7 +8,8 @@ import { ApiError } from '../utils/ApiError';
 import { isUserMemberOfWorkspace } from './workspace.service';
 
 interface MessageParams {
-  channelId: string;
+  channelId?: string;
+  parentMessageId?: string;
 }
 
 interface CreateMessageData {
@@ -17,6 +18,7 @@ interface CreateMessageData {
   channelId: string;
   senderId: string;
   workspaceId: string;
+  parentMessageId?: string;
 }
 
 /**
@@ -28,6 +30,10 @@ export async function getMessagesService(
   limit: number,
   userId: string
 ): Promise<IMessagePopulated[]> {
+  if (!messageParams.channelId) {
+    throw new ApiError(StatusCodes.BAD_REQUEST, 'Channel ID is required');
+  }
+
   const channelDetails =
     await channelRepository.getChannelWithWorkspaceDetails(
       messageParams.channelId
@@ -62,4 +68,19 @@ export async function createMessageService(
     data as unknown as { [key: string]: unknown } & { channelId: Types.ObjectId; senderId: Types.ObjectId; workspaceId: Types.ObjectId }
   );
   return messageRepository.getMessageDetails(newMessage._id.toString());
+}
+
+/**
+ * Toggle an emoji reaction on a message.
+ */
+export async function toggleReactionService(
+  messageId: string,
+  emoji: string,
+  userId: string
+): Promise<IMessagePopulated | null> {
+  const message = await messageRepository.getById(messageId);
+  if (!message) {
+    throw new ApiError(StatusCodes.NOT_FOUND, 'Message not found');
+  }
+  return messageRepository.toggleReaction(messageId, emoji, userId);
 }

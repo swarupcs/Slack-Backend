@@ -54,12 +54,19 @@ export interface IChannelDocument extends IChannel, Document {
 }
 
 /* ─── Message ────────────────────────────────────────────────────────── */
+export interface IReaction {
+  emoji: string;
+  userIds: Types.ObjectId[];
+}
+
 export interface IMessage {
   body: string;
   image?: string;
   channelId: Types.ObjectId;
   senderId: Types.ObjectId;
   workspaceId: Types.ObjectId;
+  parentMessageId?: Types.ObjectId;
+  reactions: IReaction[];
 }
 
 export interface IMessageDocument extends IMessage, Document {
