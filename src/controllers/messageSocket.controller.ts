@@ -19,18 +19,26 @@ export default function messageSocketHandlers(
     SocketEvents.NEW_MESSAGE,
     async (data: NewMessageData, cb: SocketCallback) => {
       try {
-        const { channelId, parentMessageId } = data;
+        const { channelId, workspaceId, parentMessageId, senderId } = data;
         const messageResponse = await createMessageService(data);
 
         logger.debug(
           `New message in channel ${channelId} from ${socket.id}${parentMessageId ? ` (thread reply for ${parentMessageId})` : ''}`
         );
 
-        // Emit to the channel room so everyone gets it
+        // Broadcast the message to everyone in the channel room
         io.to(channelId).emit(
           SocketEvents.NEW_MESSAGE_RECEIVED,
           messageResponse
         );
+
+        // Notify the workspace that an unread count changed (only for top-level messages)
+        if (!parentMessageId && workspaceId) {
+          io.to(`workspace:${workspaceId}`).emit(
+            SocketEvents.UNREAD_COUNT_UPDATED,
+            { channelId, senderId }
+          );
+        }
 
         cb({
           success: true,

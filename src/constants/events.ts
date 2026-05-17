@@ -14,6 +14,7 @@ export const SocketEvents = {
   ONLINE_USERS_LIST: 'OnlineUsersList',
   MESSAGE_UPDATED: 'MessageUpdated',
   MESSAGE_DELETED: 'MessageDeleted',
+  UNREAD_COUNT_UPDATED: 'UnreadCountUpdated',
 } as const;
 
 export type SocketEventName = (typeof SocketEvents)[keyof typeof SocketEvents];

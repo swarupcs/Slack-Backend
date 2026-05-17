@@ -14,6 +14,7 @@ import {
   createOrGetDMChannelController,
   searchWorkspaceController
 } from '../../controllers/workspace.controller';
+import { getWorkspaceUnreadCountsController } from '../../controllers/unread.controller';
 import { isAuthenticated } from '../../middlewares/auth.middleware';
 import { validate } from '../../middlewares/validation.middleware';
 import {
@@ -80,5 +81,6 @@ router.put(
 );
 
 router.get('/:workspaceId/search', isAuthenticated, searchWorkspaceController);
+router.get('/:workspaceId/unread', isAuthenticated, getWorkspaceUnreadCountsController);
 
 export default router;
