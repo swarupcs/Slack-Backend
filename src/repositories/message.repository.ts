@@ -102,6 +102,29 @@ const messageRepository = {
     }
 
     return this.getMessageDetails(messageId);
+  },
+
+  /**
+   * Full-text search across messages in a workspace.
+   * Returns messages sorted by text-search relevance score.
+   */
+  async searchMessages(
+    workspaceId: string,
+    query: string,
+    limit = 25
+  ): Promise<any[]> {
+    return Message.find(
+      {
+        workspaceId,
+        $text: { $search: query }
+      },
+      { score: { $meta: 'textScore' } }
+    )
+      .sort({ score: { $meta: 'textScore' }, createdAt: -1 })
+      .limit(limit)
+      .populate('senderId', 'username email avatar')
+      .populate('channelId', 'name')
+      .lean();
   }
 };
 

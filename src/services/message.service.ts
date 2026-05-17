@@ -84,3 +84,40 @@ export async function toggleReactionService(
   }
   return messageRepository.toggleReaction(messageId, emoji, userId);
 }
+
+/**
+ * Edit a message body (author only).
+ */
+export async function editMessageService(
+  messageId: string,
+  newBody: string,
+  userId: string
+): Promise<IMessagePopulated | null> {
+  const message = await messageRepository.getById(messageId);
+  if (!message) {
+    throw new ApiError(StatusCodes.NOT_FOUND, 'Message not found');
+  }
+  if (message.senderId.toString() !== userId) {
+    throw new ApiError(StatusCodes.FORBIDDEN, 'You can only edit your own messages');
+  }
+  await messageRepository.update(messageId, { body: newBody, isEdited: true });
+  return messageRepository.getMessageDetails(messageId);
+}
+
+/**
+ * Delete a message (author only).
+ */
+export async function deleteMessageService(
+  messageId: string,
+  userId: string
+): Promise<{ messageId: string }> {
+  const message = await messageRepository.getById(messageId);
+  if (!message) {
+    throw new ApiError(StatusCodes.NOT_FOUND, 'Message not found');
+  }
+  if (message.senderId.toString() !== userId) {
+    throw new ApiError(StatusCodes.FORBIDDEN, 'You can only delete your own messages');
+  }
+  await messageRepository.delete(messageId);
+  return { messageId };
+}

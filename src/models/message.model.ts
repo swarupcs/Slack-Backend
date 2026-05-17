@@ -35,10 +35,19 @@ const messageSchema = new Schema<IMessageDocument>(
         emoji: { type: String, required: true },
         userIds: [{ type: Schema.Types.ObjectId, ref: 'User' }]
       }
-    ]
+    ],
+    isEdited: {
+      type: Boolean,
+      default: false
+    }
   },
   { timestamps: true }
 );
+
+// Text index for full-text search on message body
+messageSchema.index({ body: 'text' });
+// Compound index for fast workspace-scoped queries
+messageSchema.index({ workspaceId: 1, createdAt: -1 });
 
 const Message = mongoose.model<IMessageDocument>('Message', messageSchema);
 

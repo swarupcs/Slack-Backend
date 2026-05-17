@@ -67,6 +67,7 @@ export interface IMessage {
   workspaceId: Types.ObjectId;
   parentMessageId?: Types.ObjectId;
   reactions: IReaction[];
+  isEdited: boolean;
 }
 
 export interface IMessageDocument extends IMessage, Document {

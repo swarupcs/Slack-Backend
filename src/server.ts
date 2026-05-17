@@ -16,6 +16,7 @@ import mailer from './config/mail.config';
 import channelSocketHandlers from './controllers/channelSocket.controller';
 import messageSocketHandlers from './controllers/messageSocket.controller';
 import presenceSocketHandlers from './controllers/presenceSocket.controller';
+import { setSocketServer } from './controllers/message.controller';
 import { logger } from './lib/logger';
 
 const server = createServer(app);
@@ -27,6 +28,9 @@ const io = new Server(server, {
     methods: corsOptions.methods
   }
 });
+
+// Inject io into controllers that need to broadcast
+setSocketServer(io);
 
 io.on('connection', (socket) => {
   logger.info(`Socket connected: ${socket.id}`);

@@ -11,7 +11,8 @@ import {
   joinWorkspaceController,
   resetJoinCodeController,
   updateWorkspaceController,
-  createOrGetDMChannelController
+  createOrGetDMChannelController,
+  searchWorkspaceController
 } from '../../controllers/workspace.controller';
 import { isAuthenticated } from '../../middlewares/auth.middleware';
 import { validate } from '../../middlewares/validation.middleware';
@@ -77,5 +78,7 @@ router.put(
   isAuthenticated,
   createOrGetDMChannelController
 );
+
+router.get('/:workspaceId/search', isAuthenticated, searchWorkspaceController);
 
 export default router;

@@ -17,6 +17,8 @@ import {
 import type { AuthenticatedRequest } from '../types/express.types';
 import { ApiResponse } from '../utils/ApiResponse';
 import { asyncHandler } from '../utils/asyncHandler';
+import messageRepository from '../repositories/message.repository';
+import { ApiError } from '../utils/ApiError';
 
 /**
  * POST /api/v1/workspaces
@@ -276,3 +278,21 @@ export const createOrGetDMChannelController = asyncHandler(
       );
   }
 );
+
+/**
+ * GET /api/v1/workspaces/:workspaceId/search?query=...
+ */
+export const searchWorkspaceController = asyncHandler(async (req, res) => {
+  const { workspaceId } = req.params;
+  const query = req.query.query as string | undefined;
+
+  if (!query || query.trim().length < 2) {
+    throw new ApiError(StatusCodes.BAD_REQUEST, 'Search query must be at least 2 characters');
+  }
+
+  const results = await messageRepository.searchMessages(workspaceId, query.trim());
+
+  res
+    .status(StatusCodes.OK)
+    .json(new ApiResponse(StatusCodes.OK, results, 'Search results'));
+});
