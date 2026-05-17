@@ -36,6 +36,12 @@ const userSchema = new Schema<IUserDocument>(
     avatar: {
       type: String
     },
+    status: {
+      type: String,
+      trim: true,
+      maxlength: 50,
+      default: ''
+    },
     isVerified: {
       type: Boolean,
       default: false

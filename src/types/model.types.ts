@@ -12,6 +12,7 @@ export interface IUser {
   password: string;
   username: string;
   avatar?: string;
+  status?: string;
   isVerified: boolean;
   verificationToken?: string | null;
   verificationTokenExpiry?: Date | null;
@@ -83,6 +84,7 @@ export interface IPopulatedWorkspaceMember {
     username: string;
     email: string;
     avatar?: string;
+    status?: string;
   };
   role: WorkspaceRole;
 }
@@ -102,5 +104,6 @@ export interface IMessagePopulated extends Omit<IMessageDocument, 'senderId'> {
     username: string;
     email: string;
     avatar?: string;
+    status?: string;
   };
 }

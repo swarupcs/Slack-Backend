@@ -21,9 +21,23 @@ interface SignInData {
   password: string;
 }
 
+interface UpdateProfileData {
+  userId: string;
+  username?: string;
+  avatar?: string;
+  status?: string;
+}
+
+interface UpdatePasswordData {
+  userId: string;
+  currentPassword?: string;
+  newPassword?: string;
+}
+
 interface SignInResponse {
   username: string;
   avatar?: string;
+  status?: string;
   email: string;
   _id: string;
   token: string;
@@ -125,8 +139,60 @@ export async function signInService(
   return {
     username: user.username,
     avatar: user.avatar,
+    status: user.status,
     email: user.email,
     _id: user._id.toString(),
     token: createJWT({ id: user._id.toString(), email: user.email })
   };
+}
+
+/**
+ * Update user profile (username, avatar, status).
+ */
+export async function updateProfileService(data: UpdateProfileData): Promise<IUserDocument> {
+  const { userId, username, avatar, status } = data;
+
+  const user = await userRepository.getById(userId);
+  if (!user) {
+    throw new ApiError(StatusCodes.NOT_FOUND, 'User not found');
+  }
+
+  // Check username uniqueness if changed
+  if (username && username !== user.username) {
+    const existing = await userRepository.getByUsername(username);
+    if (existing) {
+      throw new ApiError(StatusCodes.CONFLICT, 'Username is already taken');
+    }
+    user.username = username;
+  }
+
+  if (avatar !== undefined) user.avatar = avatar;
+  if (status !== undefined) user.status = status;
+
+  await user.save();
+  return user;
+}
+
+/**
+ * Update user password.
+ */
+export async function updatePasswordService(data: UpdatePasswordData): Promise<void> {
+  const { userId, currentPassword, newPassword } = data;
+
+  if (!currentPassword || !newPassword) {
+    throw new ApiError(StatusCodes.BAD_REQUEST, 'Current and new passwords are required');
+  }
+
+  const user = await userRepository.getById(userId);
+  if (!user) {
+    throw new ApiError(StatusCodes.NOT_FOUND, 'User not found');
+  }
+
+  const isMatch = bcrypt.compareSync(currentPassword, user.password);
+  if (!isMatch) {
+    throw new ApiError(StatusCodes.BAD_REQUEST, 'Incorrect current password');
+  }
+
+  user.password = newPassword;
+  await user.save();
 }

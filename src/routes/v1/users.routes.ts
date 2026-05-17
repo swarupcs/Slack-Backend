@@ -1,8 +1,9 @@
 import { Router } from 'express';
 
-import { signIn, signUp } from '../../controllers/user.controller';
+import { signIn, signUp, updateProfile, updatePassword } from '../../controllers/user.controller';
 import { authRateLimiter } from '../../middlewares/rateLimiter.middleware';
 import { validate } from '../../middlewares/validation.middleware';
+import { isAuthenticated } from '../../middlewares/auth.middleware';
 import {
   userSignInSchema,
   userSignUpSchema
@@ -23,5 +24,8 @@ router.post(
   validate(userSignInSchema),
   signIn
 );
+
+router.put('/me', isAuthenticated, updateProfile);
+router.put('/me/password', isAuthenticated, updatePassword);
 
 export default router;
