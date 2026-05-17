@@ -356,3 +356,47 @@ export async function joinWorkspaceService(
     WorkspaceRole.MEMBER
   );
 }
+
+/**
+ * Create or get a Direct Message channel between two users.
+ */
+export async function createOrGetDMChannelService(
+  workspaceId: string,
+  userAId: string,
+  userBId: string
+): Promise<IWorkspaceDocument | { _id: string }> {
+  const workspace = await workspaceRepository.getWorkspaceDetailsById(workspaceId);
+
+  if (!workspace) {
+    throw new ApiError(StatusCodes.NOT_FOUND, 'Workspace not found');
+  }
+
+  // Ensure both users are members
+  if (!isUserMemberOfWorkspace(workspace, userAId)) {
+    throw new ApiError(StatusCodes.FORBIDDEN, 'You are not a member of this workspace');
+  }
+  if (!isUserMemberOfWorkspace(workspace, userBId)) {
+    throw new ApiError(StatusCodes.NOT_FOUND, 'The target user is not a member of this workspace');
+  }
+
+  const sortedIds = [userAId, userBId].sort();
+  const dmChannelName = `dm-${sortedIds[0]}-${sortedIds[1]}`;
+
+  // Check if it already exists
+  const existingChannel = workspace.channels.find(
+    (channel) => channel.name === dmChannelName
+  );
+
+  if (existingChannel) {
+    return existingChannel as any;
+  }
+
+  // If not, create it
+  await workspaceRepository.addChannelToWorkspace(workspaceId, dmChannelName);
+  
+  // Re-fetch to get the newly created channel ID
+  const updatedWorkspace = await workspaceRepository.getWorkspaceDetailsById(workspaceId);
+  const newChannel = updatedWorkspace?.channels.find((c) => c.name === dmChannelName);
+  
+  return newChannel as any;
+}

@@ -10,7 +10,8 @@ import {
   getWorkspacesUserIsMemberOfController,
   joinWorkspaceController,
   resetJoinCodeController,
-  updateWorkspaceController
+  updateWorkspaceController,
+  createOrGetDMChannelController
 } from '../../controllers/workspace.controller';
 import { isAuthenticated } from '../../middlewares/auth.middleware';
 import { validate } from '../../middlewares/validation.middleware';
@@ -69,6 +70,12 @@ router.put(
   '/:workspaceId/joinCode/reset',
   isAuthenticated,
   resetJoinCodeController
+);
+
+router.put(
+  '/:workspaceId/dm',
+  isAuthenticated,
+  createOrGetDMChannelController
 );
 
 export default router;

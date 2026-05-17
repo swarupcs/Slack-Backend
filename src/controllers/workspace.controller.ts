@@ -11,7 +11,8 @@ import {
   getWorkspacesUserIsMemberOfService,
   joinWorkspaceService,
   resetWorkspaceJoinCodeService,
-  updateWorkspaceService
+  updateWorkspaceService,
+  createOrGetDMChannelService
 } from '../services/workspace.service';
 import type { AuthenticatedRequest } from '../types/express.types';
 import { ApiResponse } from '../utils/ApiResponse';
@@ -250,3 +251,28 @@ export const verifyEmailController = asyncHandler(async (req, res) => {
       )
     );
 });
+
+/**
+ * PUT /api/v1/workspaces/:workspaceId/dm
+ */
+export const createOrGetDMChannelController = asyncHandler(
+  async (req, res) => {
+    const workspaceId = req.params.workspaceId as string;
+    const { memberId } = req.body;
+    const response = await createOrGetDMChannelService(
+      workspaceId,
+      (req as AuthenticatedRequest).user,
+      memberId
+    );
+
+    res
+      .status(StatusCodes.OK)
+      .json(
+        new ApiResponse(
+          StatusCodes.OK,
+          response,
+          'DM Channel fetched successfully'
+        )
+      );
+  }
+);
