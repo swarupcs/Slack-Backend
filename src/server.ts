@@ -16,6 +16,7 @@ import mailer from './config/mail.config';
 import channelSocketHandlers from './controllers/channelSocket.controller';
 import messageSocketHandlers from './controllers/messageSocket.controller';
 import presenceSocketHandlers from './controllers/presenceSocket.controller';
+import typingSocketHandlers from './controllers/typingSocket.controller';
 import { setSocketServer } from './controllers/message.controller';
 import { logger } from './lib/logger';
 
@@ -38,6 +39,7 @@ io.on('connection', (socket) => {
   messageSocketHandlers(io, socket);
   channelSocketHandlers(io, socket);
   presenceSocketHandlers(io, socket);
+  typingSocketHandlers(io, socket);
 
   socket.on('disconnect', () => {
     logger.debug(`Socket disconnected: ${socket.id}`);

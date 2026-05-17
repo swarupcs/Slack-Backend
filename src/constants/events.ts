@@ -15,6 +15,8 @@ export const SocketEvents = {
   MESSAGE_UPDATED: 'MessageUpdated',
   MESSAGE_DELETED: 'MessageDeleted',
   UNREAD_COUNT_UPDATED: 'UnreadCountUpdated',
+  TYPING_START: 'TypingStart',
+  TYPING_STOP: 'TypingStop',
 } as const;
 
 export type SocketEventName = (typeof SocketEvents)[keyof typeof SocketEvents];
