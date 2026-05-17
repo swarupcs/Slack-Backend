@@ -145,6 +145,24 @@ const workspaceRepository = {
       'members.memberId',
       'username email avatar'
     ) as unknown as Promise<IWorkspacePopulated[]>;
+  },
+
+  /**
+   * Remove a channel from a workspace.
+   */
+  async removeChannelFromWorkspace(
+    workspaceId: string,
+    channelId: string
+  ): Promise<void> {
+    const workspace = await Workspace.findById(workspaceId);
+    if (!workspace) {
+      throw new ApiError(StatusCodes.NOT_FOUND, 'Workspace not found');
+    }
+
+    workspace.channels = (workspace.channels as Types.ObjectId[]).filter(
+      (c) => c.toString() !== channelId
+    );
+    await workspace.save();
   }
 };
 

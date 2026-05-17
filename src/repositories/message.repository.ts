@@ -125,6 +125,13 @@ const messageRepository = {
       .populate('senderId', 'username email avatar')
       .populate('channelId', 'name')
       .lean();
+  },
+
+  /**
+   * Delete multiple messages based on a query filter.
+   */
+  async deleteMany(filter: any): Promise<void> {
+    await Message.deleteMany(filter);
   }
 };
 

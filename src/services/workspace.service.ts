@@ -19,7 +19,7 @@ import { ApiError } from '../utils/ApiError';
 /**
  * Check if a user is an admin of the workspace.
  */
-function isUserAdminOfWorkspace(
+export function isUserAdminOfWorkspace(
   workspace: IWorkspaceDocument | IWorkspacePopulated,
   userId: string
 ): boolean {
