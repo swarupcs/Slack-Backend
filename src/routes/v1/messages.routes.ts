@@ -8,13 +8,15 @@ import {
   toggleReaction
 } from '../../controllers/message.controller';
 import { isAuthenticated } from '../../middlewares/auth.middleware';
+import { validate } from '../../middlewares/validation.middleware';
+import { editMessageSchema, toggleReactionSchema } from '../../validators/message.validator';
 
 const router = Router();
 
 router.get('/upload-auth', isAuthenticated, getUploadAuth);
 router.get('/:channelId', isAuthenticated, getMessages);
-router.put('/:messageId/reactions', isAuthenticated, toggleReaction);
-router.put('/:messageId', isAuthenticated, editMessage);
+router.put('/:messageId/reactions', isAuthenticated, validate(toggleReactionSchema), toggleReaction);
+router.put('/:messageId', isAuthenticated, validate(editMessageSchema), editMessage);
 router.delete('/:messageId', isAuthenticated, deleteMessage);
 
 export default router;
