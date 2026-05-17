@@ -8,7 +8,7 @@ import {
 import { markChannelReadController } from '../../controllers/unread.controller';
 import { isAuthenticated } from '../../middlewares/auth.middleware';
 
-const router = Router();
+const router: import("express").Router = Router();
 
 router.get('/:channelId', isAuthenticated, getChannelByIdController);
 router.put('/:channelId', isAuthenticated, renameChannelController);

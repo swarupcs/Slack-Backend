@@ -11,7 +11,7 @@ import { isAuthenticated } from '../../middlewares/auth.middleware';
 import { validate } from '../../middlewares/validation.middleware';
 import { editMessageSchema, toggleReactionSchema } from '../../validators/message.validator';
 
-const router = Router();
+const router: import("express").Router = Router();
 
 router.get('/upload-auth', isAuthenticated, getUploadAuth);
 router.get('/:channelId', isAuthenticated, getMessages);

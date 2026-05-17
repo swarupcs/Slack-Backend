@@ -3,7 +3,7 @@ import { Router } from 'express';
 import { isMemberPartOfWorkspaceController } from '../../controllers/member.controller';
 import { isAuthenticated } from '../../middlewares/auth.middleware';
 
-const router = Router();
+const router: import("express").Router = Router();
 
 router.get(
   '/workspace/:workspaceId',

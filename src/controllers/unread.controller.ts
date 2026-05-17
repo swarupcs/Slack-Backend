@@ -12,7 +12,7 @@ import { asyncHandler } from '../utils/asyncHandler';
  * Marks all messages in a channel as read for the current user.
  */
 export const markChannelReadController = asyncHandler(async (req, res) => {
-  const { channelId } = req.params;
+  const channelId = req.params.channelId as string;
   const userId = (req as AuthenticatedRequest).user;
 
   await unreadRepository.markChannelRead(userId, channelId);
@@ -28,7 +28,7 @@ export const markChannelReadController = asyncHandler(async (req, res) => {
  * across all channels in the workspace.
  */
 export const getWorkspaceUnreadCountsController = asyncHandler(async (req, res) => {
-  const { workspaceId } = req.params;
+  const workspaceId = req.params.workspaceId as string;
   const userId = (req as AuthenticatedRequest).user;
 
   const workspace = await workspaceRepository.getById(workspaceId);

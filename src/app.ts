@@ -13,7 +13,7 @@ import { requestLogger } from './middlewares/requestLogger.middleware';
 import apiRouter from './routes/api.routes';
 import { ApiResponse } from './utils/ApiResponse';
 
-const app = express();
+const app: import("express").Application = express();
 
 /* ─── Security Middleware ────────────────────────────────────────────── */
 app.use(helmet());

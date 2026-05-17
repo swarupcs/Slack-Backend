@@ -6,7 +6,7 @@ import messageRouter from './messages.routes';
 import userRouter from './users.routes';
 import workspaceRouter from './workspaces.routes';
 
-const router = Router();
+const router: import("express").Router = Router();
 
 router.use('/users', userRouter);
 router.use('/workspaces', workspaceRouter);

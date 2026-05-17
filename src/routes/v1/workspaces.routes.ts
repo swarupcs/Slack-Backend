@@ -24,7 +24,7 @@ import {
   joinWorkspaceSchema
 } from '../../validators/workspace.validator';
 
-const router = Router();
+const router: import("express").Router = Router();
 
 router.post(
   '/',

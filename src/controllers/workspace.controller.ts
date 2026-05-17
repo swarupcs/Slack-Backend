@@ -283,7 +283,7 @@ export const createOrGetDMChannelController = asyncHandler(
  * GET /api/v1/workspaces/:workspaceId/search?query=...
  */
 export const searchWorkspaceController = asyncHandler(async (req, res) => {
-  const { workspaceId } = req.params;
+  const workspaceId = req.params.workspaceId as string;
   const query = req.query.query as string | undefined;
 
   if (!query || query.trim().length < 2) {

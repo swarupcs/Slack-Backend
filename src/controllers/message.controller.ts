@@ -5,7 +5,6 @@ import { env } from '../config/env.config';
 import { SocketEvents } from '../constants/events';
 import { parsePaginationParams } from '../helpers/pagination.helper';
 import {
-  createMessageService,
   deleteMessageService,
   editMessageService,
   getMessagesService,

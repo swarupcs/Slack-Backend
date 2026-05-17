@@ -9,7 +9,7 @@ import {
   userSignUpSchema
 } from '../../validators/user.validator';
 
-const router = Router();
+const router: import("express").Router = Router();
 
 router.post(
   '/signup',
