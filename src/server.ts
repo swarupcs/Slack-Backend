@@ -1,6 +1,10 @@
 // Import mail processor to register queue processing
 import './processors/mail.processor';
 
+import dns from 'node:dns';
+// Force Node to use Google DNS to bypass ISP blocking of MongoDB Atlas SRV records
+dns.setServers(['8.8.8.8', '8.8.4.4']);
+
 import { createServer } from 'http';
 import { Server } from 'socket.io';
 

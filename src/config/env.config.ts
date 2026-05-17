@@ -16,7 +16,7 @@ function validateEnv(): EnvConfig {
 
   if (!result.success) {
     const formatted = result.error.format();
-    logger.error('❌ Invalid environment variables:', formatted);
+    logger.error(`❌ Invalid environment variables:\n${JSON.stringify(formatted, null, 2)}`);
     process.exit(1);
   }
 
