@@ -1,6 +1,6 @@
 import { StatusCodes } from 'http-status-codes';
 
-import { signInService, signUpService, updateProfileService, updatePasswordService } from '../services/user.service';
+import { signInService, signUpService, updatePasswordService,updateProfileService } from '../services/user.service';
 import type { AuthenticatedRequest } from '../types/express.types';
 import { ApiResponse } from '../utils/ApiResponse';
 import { asyncHandler } from '../utils/asyncHandler';

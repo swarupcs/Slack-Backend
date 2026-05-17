@@ -14,10 +14,10 @@ import { connectDB, disconnectDB } from './config/db.config';
 import { env } from './config/env.config';
 import mailer from './config/mail.config';
 import channelSocketHandlers from './controllers/channelSocket.controller';
+import { setSocketServer } from './controllers/message.controller';
 import messageSocketHandlers from './controllers/messageSocket.controller';
 import presenceSocketHandlers from './controllers/presenceSocket.controller';
 import typingSocketHandlers from './controllers/typingSocket.controller';
-import { setSocketServer } from './controllers/message.controller';
 import { logger } from './lib/logger';
 
 const server = createServer(app);

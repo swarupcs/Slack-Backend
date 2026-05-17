@@ -1,6 +1,6 @@
 import { StatusCodes } from 'http-status-codes';
 
-import { getChannelByIdService, renameChannelService, deleteChannelService } from '../services/channel.service';
+import { deleteChannelService,getChannelByIdService, renameChannelService } from '../services/channel.service';
 import type { AuthenticatedRequest } from '../types/express.types';
 import { ApiResponse } from '../utils/ApiResponse';
 import { asyncHandler } from '../utils/asyncHandler';

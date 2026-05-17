@@ -1,4 +1,5 @@
 import cors from 'cors';
+import type { Application } from "express";
 import express from 'express';
 import helmet from 'helmet';
 import { StatusCodes } from 'http-status-codes';
@@ -13,7 +14,7 @@ import { requestLogger } from './middlewares/requestLogger.middleware';
 import apiRouter from './routes/api.routes';
 import { ApiResponse } from './utils/ApiResponse';
 
-const app: import("express").Application = express();
+const app: Application = express();
 
 /* ─── Security Middleware ────────────────────────────────────────────── */
 app.use(helmet());

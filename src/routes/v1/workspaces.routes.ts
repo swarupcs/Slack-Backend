@@ -1,8 +1,10 @@
 import { Router } from 'express';
 
+import { getWorkspaceUnreadCountsController } from '../../controllers/unread.controller';
 import {
   addChannelToWorkspaceController,
   addMemberToWorkspaceController,
+  createOrGetDMChannelController,
   createWorkspaceController,
   deleteWorkspaceController,
   getWorkspaceByJoinCodeController,
@@ -10,11 +12,8 @@ import {
   getWorkspacesUserIsMemberOfController,
   joinWorkspaceController,
   resetJoinCodeController,
-  updateWorkspaceController,
-  createOrGetDMChannelController,
-  searchWorkspaceController
-} from '../../controllers/workspace.controller';
-import { getWorkspaceUnreadCountsController } from '../../controllers/unread.controller';
+  searchWorkspaceController,
+  updateWorkspaceController} from '../../controllers/workspace.controller';
 import { isAuthenticated } from '../../middlewares/auth.middleware';
 import { validate } from '../../middlewares/validation.middleware';
 import {
@@ -24,7 +23,7 @@ import {
   joinWorkspaceSchema
 } from '../../validators/workspace.validator';
 
-const router: import("express").Router = Router();
+const router: Router = Router();
 
 router.post(
   '/',

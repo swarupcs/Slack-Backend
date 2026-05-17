@@ -1,15 +1,15 @@
 import { Router } from 'express';
 
-import { signIn, signUp, updateProfile, updatePassword } from '../../controllers/user.controller';
+import { signIn, signUp, updatePassword,updateProfile } from '../../controllers/user.controller';
+import { isAuthenticated } from '../../middlewares/auth.middleware';
 import { authRateLimiter } from '../../middlewares/rateLimiter.middleware';
 import { validate } from '../../middlewares/validation.middleware';
-import { isAuthenticated } from '../../middlewares/auth.middleware';
 import {
   userSignInSchema,
   userSignUpSchema
 } from '../../validators/user.validator';
 
-const router: import("express").Router = Router();
+const router: Router = Router();
 
 router.post(
   '/signup',

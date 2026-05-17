@@ -4,11 +4,10 @@ import channelRepository from '../repositories/channel.repository';
 import messageRepository from '../repositories/message.repository';
 import workspaceRepository from '../repositories/workspace.repository';
 import type {
-  IMessagePopulated,
-  IChannelDocument
-} from '../types/model.types';
+  IChannelDocument,
+  IMessagePopulated} from '../types/model.types';
 import { ApiError } from '../utils/ApiError';
-import { isUserMemberOfWorkspace, isUserAdminOfWorkspace } from './workspace.service';
+import { isUserAdminOfWorkspace,isUserMemberOfWorkspace } from './workspace.service';
 
 interface ChannelByIdResponse {
   messages: IMessagePopulated[];

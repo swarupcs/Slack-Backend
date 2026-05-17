@@ -1,9 +1,11 @@
 import { StatusCodes } from 'http-status-codes';
 
+import messageRepository from '../repositories/message.repository';
 import { verifyTokenService } from '../services/user.service';
 import {
   addChannelToWorkspaceService,
   addMemberToWorkspaceService,
+  createOrGetDMChannelService,
   createWorkspaceService,
   deleteWorkspaceService,
   getWorkspaceByJoinCodeService,
@@ -11,14 +13,11 @@ import {
   getWorkspacesUserIsMemberOfService,
   joinWorkspaceService,
   resetWorkspaceJoinCodeService,
-  updateWorkspaceService,
-  createOrGetDMChannelService
-} from '../services/workspace.service';
+  updateWorkspaceService} from '../services/workspace.service';
 import type { AuthenticatedRequest } from '../types/express.types';
+import { ApiError } from '../utils/ApiError';
 import { ApiResponse } from '../utils/ApiResponse';
 import { asyncHandler } from '../utils/asyncHandler';
-import messageRepository from '../repositories/message.repository';
-import { ApiError } from '../utils/ApiError';
 
 /**
  * POST /api/v1/workspaces
